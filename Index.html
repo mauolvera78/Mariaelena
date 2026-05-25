@@ -1,0 +1,1332 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>María Elena Espejel — Psicología Clínica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<style>
+  :root{
+    --bg: #EDE7DC;
+    --bg-2: #E4DCCC;
+    --paper: #F6F1E7;
+    --ink: #1F1D1A;
+    --ink-2: #4A4640;
+    --ink-3: #7A7468;
+    --line: rgba(31,29,26,.14);
+    --accent: #6B7D6A;
+    --accent-deep: #4D5C4D;
+    --tan: #C9B8A0;
+    --gold: #B89968;
+    --serif: "Instrument Serif", "Cormorant Garamond", Georgia, serif;
+    --sans: "Manrope", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --maxw: 1280px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.55;
+    font-weight:400;
+    letter-spacing:-0.005em;
+    text-rendering:optimizeLegibility;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+  /* Type system */
+  .serif{font-family:var(--serif);font-weight:400;letter-spacing:-0.01em}
+  .eyebrow{
+    font-family:var(--sans);
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+  }
+  h1,h2,h3,h4{font-family:var(--serif);font-weight:400;letter-spacing:-0.015em;line-height:1.05}
+  h1{font-size:clamp(56px, 9vw, 132px)}
+  h2{font-size:clamp(40px, 5.4vw, 78px);line-height:1.02}
+  h3{font-size:clamp(26px, 2.6vw, 36px)}
+  h4{font-size:22px}
+  p{text-wrap:pretty}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 36px}
+  @media (max-width:680px){ .wrap{padding:0 22px} }
+
+  /* ───────── NAV ───────── */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:color-mix(in oklab, var(--bg) 78%, transparent);
+    backdrop-filter:saturate(140%) blur(18px);
+    -webkit-backdrop-filter:saturate(140%) blur(18px);
+    border-bottom:1px solid transparent;
+    transition:border-color .3s ease, background .3s ease;
+  }
+  .nav.scrolled{border-bottom-color:var(--line)}
+  .nav-inner{
+    max-width:var(--maxw);margin:0 auto;padding:18px 36px;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+  }
+  .logo{display:flex;flex-direction:column;line-height:1}
+  .logo .name{font-family:var(--serif);font-size:22px;letter-spacing:-0.01em}
+  .logo .role{font-size:9.5px;letter-spacing:0.24em;text-transform:uppercase;color:var(--ink-3);margin-top:3px}
+  .nav-links{display:flex;gap:30px;align-items:center}
+  .nav-links a{font-size:13px;color:var(--ink-2);transition:color .2s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-cta{
+    font-size:12.5px;font-weight:500;letter-spacing:0.04em;
+    padding:10px 18px;border-radius:999px;
+    background:var(--ink);color:var(--bg);
+    transition:transform .2s ease, background .2s;
+  }
+  .nav-cta:hover{transform:translateY(-1px);background:var(--accent-deep)}
+  .menu-toggle{display:none;width:28px;height:20px;position:relative}
+  .menu-toggle span{position:absolute;left:0;right:0;height:1.2px;background:var(--ink);transition:transform .3s}
+  .menu-toggle span:nth-child(1){top:4px}
+  .menu-toggle span:nth-child(2){top:14px}
+  @media (max-width:880px){
+    .nav-links{display:none}
+    .menu-toggle{display:block}
+  }
+
+  /* ───────── HERO ───────── */
+  .hero{
+    padding:140px 0 80px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap:72px;
+    align-items:end;
+  }
+  .hero-left .hero-eyebrow{margin-bottom:30px;display:flex;align-items:center;gap:14px}
+  .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+  .hero-title{
+    font-family:var(--serif);
+    font-size:clamp(64px, 8.5vw, 138px);
+    line-height:0.92;
+    letter-spacing:-0.025em;
+  }
+  .hero-title em{font-style:italic;color:var(--accent-deep)}
+  .hero-em{
+    display:inline-block;
+    will-change:transform;
+    transform:translate3d(0,0,0);
+    transition:transform .08s linear;
+  }
+  .hero-title{will-change:transform}
+  .hero-sub{
+    margin-top:36px;
+    max-width:480px;
+    font-size:17px;
+    line-height:1.6;
+    color:var(--ink-2);
+  }
+  .hero-meta{
+    margin-top:44px;
+    display:flex;gap:14px;flex-wrap:wrap;align-items:center;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:15px 26px;border-radius:999px;
+    font-size:13.5px;font-weight:500;letter-spacing:0.02em;
+    transition:transform .2s, background .2s, color .2s, border-color .2s;
+    border:1px solid transparent;
+  }
+  .btn-primary{background:var(--ink);color:var(--bg)}
+  .btn-primary:hover{background:var(--accent-deep);transform:translateY(-1px)}
+  .btn-ghost{border-color:var(--line);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--ink);background:transparent}
+  .btn .arrow{transition:transform .2s}
+  .btn:hover .arrow{transform:translateX(3px)}
+
+  .hero-right{position:relative}
+  .hero-portrait{
+    aspect-ratio: 4 / 5;
+    width:100%;
+    background:#aaa;
+    border-radius:6px;
+    overflow:hidden;
+    position:relative;
+    box-shadow:0 30px 60px -20px rgba(31,29,26,.25);
+  }
+  .hero-portrait img{width:100%;height:100%;object-fit:cover;filter:saturate(0.95) contrast(1.02)}
+  .hero-portrait::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, transparent 60%, rgba(31,29,26,.1) 100%);
+  }
+  .hero-badge{
+    position:absolute;left:-28px;bottom:46px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:10px 18px 10px 14px;
+    display:flex;align-items:center;gap:10px;
+    box-shadow:0 8px 24px -8px rgba(31,29,26,.18);
+  }
+  .hero-badge .num{font-family:var(--serif);font-size:28px;line-height:1}
+  .hero-badge .lbl{font-size:11px;line-height:1.3;color:var(--ink-2);max-width:90px}
+
+  .hero-marquee{
+    margin-top:88px;
+    padding:22px 0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:56px;flex-wrap:wrap;justify-content:space-between;
+  }
+  .hero-marquee .item{
+    font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);
+    display:flex;align-items:center;gap:10px;
+  }
+  .hero-marquee .item svg{width:14px;height:14px;opacity:.55}
+
+  @media (max-width:880px){
+    .hero{padding:120px 0 60px}
+    .hero-grid{grid-template-columns:1fr;gap:48px}
+    .hero-right{order:-1;max-width:420px}
+    .hero-badge{left:auto;right:-12px;bottom:24px}
+  }
+
+  /* ───────── FILOSOFÍA ───────── */
+  .filosofia{
+    padding:120px 0 100px;
+    border-top:1px solid var(--line);
+  }
+  .filosofia-grid{
+    display:grid;
+    grid-template-columns: 1fr 2fr;
+    gap:72px;
+    align-items:start;
+  }
+  .filosofia-label{position:sticky;top:120px}
+  .filosofia-quote{
+    font-family:var(--serif);
+    font-size:clamp(32px, 4vw, 56px);
+    line-height:1.12;
+    letter-spacing:-0.018em;
+  }
+  .filosofia-quote em{font-style:italic;color:var(--accent-deep)}
+  .filosofia-sign{
+    margin-top:48px;
+    display:flex;align-items:center;gap:16px;
+    color:var(--ink-3);font-size:13px;
+  }
+  .filosofia-sign .line{flex:0 0 40px;height:1px;background:var(--ink-3)}
+  @media (max-width:880px){
+    .filosofia-grid{grid-template-columns:1fr;gap:32px}
+    .filosofia-label{position:static}
+  }
+
+  /* ───────── ESPECIALIDADES ───────── */
+  .esp{
+    padding:120px 0;
+    background:var(--bg-2);
+  }
+  .section-head{
+    display:flex;justify-content:space-between;align-items:end;
+    gap:48px;margin-bottom:64px;
+  }
+  .section-head .title{max-width:640px}
+  .section-head h2 em{font-style:italic;color:var(--accent-deep)}
+  .section-head .lede{max-width:340px;font-size:15px;color:var(--ink-2);line-height:1.6}
+  @media (max-width:760px){
+    .section-head{flex-direction:column;align-items:flex-start;margin-bottom:40px}
+  }
+
+  .esp-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  @media (max-width:880px){ .esp-grid{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:560px){ .esp-grid{grid-template-columns:1fr} }
+  .esp-card{
+    background:var(--bg-2);
+    padding:40px 32px 36px;
+    min-height:280px;
+    display:flex;flex-direction:column;
+    transition:background .3s;
+    cursor:default;
+    position:relative;
+  }
+  .esp-card:hover{background:var(--paper)}
+  .esp-card .num{
+    font-family:var(--serif);
+    font-size:14px;color:var(--ink-3);
+    margin-bottom:32px;
+  }
+  .esp-card h3{font-size:28px;margin-bottom:14px}
+  .esp-card h3 em{font-style:italic;color:var(--accent-deep)}
+  .esp-card p{font-size:14px;color:var(--ink-2);line-height:1.6;flex:1}
+  .esp-card .more{
+    margin-top:24px;font-size:12px;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--ink-3);
+    display:flex;align-items:center;gap:8px;
+    transition:color .2s, gap .2s;
+  }
+  .esp-card:hover .more{color:var(--accent-deep);gap:12px}
+
+  /* ───────── ENFOQUE ───────── */
+  .enfoque{
+    padding:140px 0;
+    background:var(--bg);
+  }
+  .enfoque-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:80px;
+    align-items:start;
+  }
+  .enfoque-image{
+    aspect-ratio:4/5;
+    border-radius:6px;overflow:hidden;
+    position:sticky;top:120px;
+  }
+  .enfoque-image img{width:100%;height:100%;object-fit:cover;filter:saturate(0.92)}
+  .enfoque-steps{display:flex;flex-direction:column;gap:0}
+  .step{
+    padding:36px 0;
+    border-bottom:1px solid var(--line);
+    display:grid;
+    grid-template-columns:60px 1fr;
+    gap:28px;
+    align-items:start;
+  }
+  .step:first-child{padding-top:0;border-top:1px solid var(--line)}
+  .step .step-num{
+    font-family:var(--serif);
+    font-size:38px;color:var(--accent-deep);
+    line-height:1;
+  }
+  .step h4{font-family:var(--serif);font-size:24px;margin-bottom:10px;letter-spacing:-0.012em}
+  .step p{font-size:14.5px;color:var(--ink-2);line-height:1.6}
+  @media (max-width:880px){
+    .enfoque-grid{grid-template-columns:1fr;gap:48px}
+    .enfoque-image{position:static;max-width:480px}
+  }
+
+  /* ───────── SOBRE MI ───────── */
+  .sobre{
+    padding:140px 0;
+    background:var(--ink);
+    color:var(--bg);
+    position:relative;
+  }
+  .sobre .eyebrow{color:rgba(237,231,220,.55)}
+  .sobre h2 em{color:var(--tan)}
+  .sobre-grid{
+    display:grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap:80px;
+    align-items:start;
+    margin-top:64px;
+  }
+  .sobre-text p{
+    font-size:17px;line-height:1.7;color:rgba(237,231,220,.82);
+    margin-bottom:22px;max-width:540px;
+  }
+  .sobre-text p:first-of-type::first-letter{
+    font-family:var(--serif);
+    font-size:64px;
+    line-height:1;
+    float:left;
+    margin:6px 12px -4px 0;
+    color:var(--tan);
+  }
+  .sobre-stats{
+    margin-top:48px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:32px;
+    border-top:1px solid rgba(237,231,220,.18);
+    padding-top:36px;
+    max-width:540px;
+  }
+  .sobre-stats .stat .n{font-family:var(--serif);font-size:48px;line-height:1;color:var(--tan)}
+  .sobre-stats .stat .l{font-size:12px;color:rgba(237,231,220,.6);margin-top:6px;letter-spacing:0.04em}
+
+  .credentials{
+    border-left:1px solid rgba(237,231,220,.18);
+    padding-left:36px;
+  }
+  .credentials h4{
+    font-family:var(--sans);font-size:11px;font-weight:600;
+    letter-spacing:0.22em;text-transform:uppercase;
+    color:rgba(237,231,220,.55);
+    margin-bottom:24px;
+  }
+  .cred-list{display:flex;flex-direction:column;gap:22px}
+  .cred-item{display:flex;flex-direction:column;gap:4px}
+  .cred-item .yr{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--tan)}
+  .cred-item .ti{font-family:var(--serif);font-size:19px;line-height:1.25}
+  .cred-item .org{font-size:13px;color:rgba(237,231,220,.6)}
+  @media (max-width:880px){
+    .sobre-grid{grid-template-columns:1fr;gap:56px}
+    .credentials{border-left:0;border-top:1px solid rgba(237,231,220,.18);padding-left:0;padding-top:36px}
+  }
+
+  /* ───────── TESTIMONIOS ───────── */
+  .test{
+    padding:140px 0;
+    background:var(--paper);
+  }
+  .test-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:36px;
+  }
+  .test-card{
+    background:var(--bg);
+    border:1px solid var(--line);
+    padding:36px 32px;
+    border-radius:4px;
+    display:flex;flex-direction:column;
+    transition:transform .3s, box-shadow .3s;
+  }
+  .test-card:hover{transform:translateY(-2px);box-shadow:0 12px 28px -16px rgba(31,29,26,.22)}
+  .test-card .stars{color:var(--gold);font-size:12px;letter-spacing:2px;margin-bottom:18px}
+  .test-card blockquote{
+    font-family:var(--serif);
+    font-size:22px;line-height:1.3;
+    letter-spacing:-0.008em;
+    flex:1;
+  }
+  .test-card .attr{
+    margin-top:28px;padding-top:20px;
+    border-top:1px solid var(--line);
+    display:flex;align-items:center;gap:12px;
+  }
+  .test-card .avatar{
+    width:38px;height:38px;border-radius:50%;
+    background:var(--tan);
+    font-family:var(--serif);font-size:16px;
+    display:flex;align-items:center;justify-content:center;color:var(--ink);
+  }
+  .test-card .who{display:flex;flex-direction:column}
+  .test-card .who .name{font-size:13.5px;font-weight:500}
+  .test-card .who .meta{font-size:11.5px;color:var(--ink-3)}
+  @media (max-width:880px){ .test-grid{grid-template-columns:1fr;gap:20px} }
+
+  /* ───────── FAQ ───────── */
+  .faq{
+    padding:120px 0;
+    background:var(--bg);
+  }
+  .faq-grid{
+    display:grid;
+    grid-template-columns:1fr 1.6fr;
+    gap:80px;align-items:start;
+  }
+  .faq-list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+  .faq-item{border-bottom:1px solid var(--line)}
+  .faq-q{
+    width:100%;
+    text-align:left;
+    padding:28px 0;
+    display:flex;justify-content:space-between;align-items:center;gap:24px;
+    font-family:var(--serif);
+    font-size:22px;letter-spacing:-0.01em;
+    transition:color .2s;
+  }
+  .faq-q:hover{color:var(--accent-deep)}
+  .faq-q .ico{
+    flex:0 0 28px;height:28px;border-radius:50%;
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;color:var(--ink-3);
+    transition:transform .3s, background .3s, color .3s;
+  }
+  .faq-item.open .faq-q .ico{transform:rotate(45deg);background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .faq-a{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows .35s ease, padding .35s ease;
+  }
+  .faq-a > .faq-a-inner{overflow:hidden;min-height:0}
+  .faq-item.open .faq-a{grid-template-rows:1fr;padding-bottom:28px}
+  .faq-a p{font-size:15px;color:var(--ink-2);line-height:1.65;max-width:580px}
+  @media (max-width:880px){ .faq-grid{grid-template-columns:1fr;gap:40px} }
+
+  /* ───────── CONTACTO ───────── */
+  .cta{
+    padding:160px 0;
+    background:linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+    text-align:center;position:relative;overflow:hidden;
+  }
+  .cta::before{
+    content:"";position:absolute;inset:auto -10% -40% -10%;height:60%;
+    background:radial-gradient(ellipse at center, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%);
+    pointer-events:none;
+  }
+  .cta-inner{position:relative;max-width:780px;margin:0 auto}
+  .cta h2{font-size:clamp(48px,7vw,108px);line-height:0.98;letter-spacing:-0.025em}
+  .cta h2 em{font-style:italic;color:var(--accent-deep)}
+  .cta p{margin-top:24px;font-size:17px;color:var(--ink-2);max-width:520px;margin-left:auto;margin-right:auto}
+  .cta-actions{margin-top:44px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+
+  /* Social row in CTA */
+  .cta-social{
+    margin-top:36px;
+    display:flex;justify-content:center;gap:14px;
+    position:relative;
+  }
+  .cta-social a{
+    width:44px;height:44px;border-radius:50%;
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink-2);
+    transition:transform .2s, background .2s, color .2s, border-color .2s;
+  }
+  .cta-social a:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);transform:translateY(-2px)}
+  .cta-social svg{width:18px;height:18px}
+  .wa-icon{width:16px;height:16px;color:#25D366}
+
+  /* WhatsApp Floating Action Button */
+  .wa-fab{
+    position:fixed;
+    left:24px;bottom:24px;
+    z-index:90;
+    width:58px;height:58px;
+    border-radius:50%;
+    background:#25D366;
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 28px -8px rgba(37,211,102,.55), 0 4px 12px rgba(0,0,0,.12);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .wa-fab:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 16px 36px -10px rgba(37,211,102,.65), 0 6px 16px rgba(0,0,0,.14)}
+  .wa-fab svg{width:28px;height:28px}
+  .wa-fab .pulse{
+    position:absolute;inset:0;border-radius:50%;
+    background:#25D366;opacity:.5;
+    animation:wa-pulse 2.2s ease-out infinite;
+    z-index:-1;
+  }
+  @keyframes wa-pulse{
+    0%{transform:scale(1);opacity:.5}
+    100%{transform:scale(1.9);opacity:0}
+  }
+  @media (max-width:560px){
+    .wa-fab{width:52px;height:52px;left:16px;bottom:16px}
+    .wa-fab svg{width:24px;height:24px}
+  }
+
+  /* Modal */
+  .modal-backdrop{
+    position:fixed;inset:0;z-index:200;
+    background:rgba(31,29,26,.5);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:none;align-items:center;justify-content:center;padding:24px;
+    opacity:0;transition:opacity .25s;
+  }
+  .modal-backdrop.open{display:flex;opacity:1}
+  .modal{
+    background:var(--paper);
+    border-radius:8px;
+    width:100%;max-width:560px;
+    max-height:calc(100vh - 48px);
+    overflow-y:auto;
+    box-shadow:0 30px 80px -30px rgba(31,29,26,.45);
+    transform:translateY(20px);transition:transform .35s ease;
+  }
+  .modal-backdrop.open .modal{transform:translateY(0)}
+  .modal-head{
+    padding:32px 36px 24px;
+    border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:start;gap:20px;
+  }
+  .modal-head h3{font-family:var(--serif);font-size:30px;letter-spacing:-0.015em;line-height:1.1}
+  .modal-head .sub{font-size:13px;color:var(--ink-3);margin-top:6px}
+  .modal-close{width:32px;height:32px;border-radius:50%;background:transparent;color:var(--ink-3);font-size:18px;transition:background .2s;flex-shrink:0}
+  .modal-close:hover{background:var(--line);color:var(--ink)}
+  .modal-body{padding:28px 36px 36px}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .form-grid .full{grid-column:1/-1}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field label{font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3)}
+  .field input, .field select, .field textarea{
+    font:inherit;font-size:14.5px;
+    padding:12px 14px;
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:5px;
+    color:var(--ink);
+    outline:none;transition:border-color .2s, background .2s;
+    width:100%;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--accent-deep);background:#fff}
+  .field textarea{resize:vertical;min-height:90px}
+  .form-actions{margin-top:24px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+  .form-actions .note{font-size:11.5px;color:var(--ink-3);max-width:220px;line-height:1.4}
+  .form-actions button{padding:14px 26px;border-radius:999px}
+  .form-success{
+    text-align:center;padding:24px 0 12px;
+  }
+  .form-success .check{
+    width:64px;height:64px;border-radius:50%;
+    background:color-mix(in oklab, var(--accent) 30%, var(--paper));
+    color:var(--accent-deep);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 24px;
+    font-size:30px;
+  }
+  .form-success h4{font-family:var(--serif);font-size:28px;margin-bottom:10px;letter-spacing:-0.01em}
+  .form-success p{color:var(--ink-2);font-size:14.5px}
+
+  /* ───────── FOOTER ───────── */
+  footer{
+    background:var(--ink);
+    color:rgba(237,231,220,.7);
+    padding:80px 0 40px;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1fr;
+    gap:48px;
+    padding-bottom:60px;
+    border-bottom:1px solid rgba(237,231,220,.14);
+  }
+  .footer-logo .name{font-family:var(--serif);font-size:32px;color:var(--bg);letter-spacing:-0.015em}
+  .footer-logo .role{font-size:10.5px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(237,231,220,.5);margin-top:6px}
+  .footer-logo p{margin-top:24px;font-size:13.5px;line-height:1.6;max-width:280px}
+  .footer-col h5{
+    font-family:var(--sans);
+    font-size:10.5px;letter-spacing:0.22em;text-transform:uppercase;
+    color:rgba(237,231,220,.45);
+    margin-bottom:18px;
+  }
+  .footer-col a, .footer-col p{display:block;font-size:13.5px;line-height:1.7;color:rgba(237,231,220,.75);transition:color .2s}
+  .footer-col a:hover{color:var(--bg)}
+  .footer-bottom{
+    padding-top:32px;
+    display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;
+    font-size:11.5px;color:rgba(237,231,220,.45);letter-spacing:0.04em;
+  }
+  .footer-bottom .legal{display:flex;gap:24px}
+  .footer-bottom a:hover{color:var(--bg)}
+  .footer-social{display:flex;gap:10px;margin-top:16px}
+  .footer-social a{
+    width:34px;height:34px;border-radius:50%;
+    border:1px solid rgba(237,231,220,.18);
+    display:flex;align-items:center;justify-content:center;
+    color:rgba(237,231,220,.75);
+    transition:background .2s, color .2s, border-color .2s;
+  }
+  .footer-social a:hover{background:rgba(237,231,220,.1);color:var(--bg);border-color:rgba(237,231,220,.4)}
+  .footer-social svg{width:14px;height:14px}
+  @media (max-width:880px){
+    .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
+  }
+  @media (max-width:560px){
+    .footer-grid{grid-template-columns:1fr}
+  }
+
+  /* Reveal on scroll */
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .9s ease, transform .9s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* Accent variants for image placeholders */
+  .ph-stripes{
+    background-image:
+      repeating-linear-gradient(45deg, color-mix(in oklab, var(--tan) 70%, transparent) 0 1px, transparent 1px 12px),
+      linear-gradient(135deg, var(--tan), var(--bg-2));
+  }
+</style>
+</head>
+<body>
+
+<!-- ───── NAV ───── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="logo" aria-label="Inicio">
+      <span class="name">María Elena Espejel</span>
+      <span class="role">Psicología Clínica · CDMX</span>
+    </a>
+    <div class="nav-links">
+      <a href="#filosofia">Filosofía</a>
+      <a href="#especialidades">Especialidades</a>
+      <a href="#enfoque">Enfoque</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#preguntas">Preguntas</a>
+    </div>
+    <a href="#" class="nav-cta" data-open-booking>Agendar consulta</a>
+    <button class="menu-toggle" aria-label="Menú">
+      <span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<a id="top"></a>
+
+<!-- ───── HERO ───── -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="hero-eyebrow eyebrow"><span class="dot"></span><span>Psicóloga Clínica · Ced. Prof. 8472639</span></div>
+        <h1 class="hero-title">Un espacio<br/>para <em class="hero-em">habitarte</em><br/>con calma.</h1>
+        <p class="hero-sub">Acompañamiento psicológico para adultos y parejas en Colonia del Valle. Una práctica clínica basada en evidencia, sin prisa, y profundamente humana.</p>
+        <div class="hero-meta">
+          <a href="#" class="btn btn-primary" data-open-booking>Agendar primera sesión <span class="arrow">→</span></a>
+          <a href="#enfoque" class="btn btn-ghost">Conoce el enfoque</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-portrait">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=900&q=80" alt="Retrato de María Elena Espejel" loading="eager" />
+        </div>
+        <div class="hero-badge">
+          <div class="num">15+</div>
+          <div class="lbl">años de práctica clínica</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-marquee">
+      <div class="item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Sesiones de 50 min
+      </div>
+      <div class="item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h18M3 12h18M3 17h12"/></svg>
+        Terapia cognitivo-conductual
+      </div>
+      <div class="item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4.5 2 7L12 16l-6.5 4.5 2-7L2 9h7z"/></svg>
+        Cédula profesional UNAM
+      </div>
+      <div class="item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Col. del Valle &amp; online
+      </div>
+      <div class="item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 12V8a2 2 0 0 0-2-2h-3.5L12 3 9.5 6H6a2 2 0 0 0-2 2v4M4 12h16v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg>
+        Atención bilingüe ES/EN
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ───── FILOSOFÍA ───── -->
+<section class="filosofia" id="filosofia">
+  <div class="wrap">
+    <div class="filosofia-grid">
+      <div class="filosofia-label">
+        <div class="eyebrow">— Filosofía</div>
+      </div>
+      <div>
+        <p class="filosofia-quote">
+          “Creo en una psicología que no busca <em>arreglarte</em>, sino acompañarte a reconocerte. El cambio no llega desde la prisa, llega desde la <em>presencia</em>. Mi trabajo es sostener ese espacio para que tú puedas hacer el tuyo.”
+        </p>
+        <div class="filosofia-sign">
+          <div class="line"></div>
+          <span>María Elena Espejel — Psicóloga Clínica</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── ESPECIALIDADES ───── -->
+<section class="esp" id="especialidades">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="title">
+        <div class="eyebrow" style="margin-bottom:18px">— Especialidades</div>
+        <h2>Áreas en las que <em>trabajo</em> contigo.</h2>
+      </div>
+      <p class="lede">Cada proceso es único. Estas son las áreas en las que más experiencia clínica he desarrollado a lo largo de quince años.</p>
+    </div>
+
+    <div class="esp-grid">
+      <article class="esp-card">
+        <div class="num">01</div>
+        <h3>Ansiedad &amp; <em>estrés</em></h3>
+        <p>Trabajo con personas que sienten que la mente no se detiene: rumiación, ataques de pánico, hipervigilancia. Bajamos el ruido para volver al cuerpo.</p>
+        <div class="more">Ver más <span>→</span></div>
+      </article>
+      <article class="esp-card">
+        <div class="num">02</div>
+        <h3>Depresión y <em>estados</em> de ánimo</h3>
+        <p>Recuperar lo que duele moverse. Abordamos los pensamientos, los hábitos y los vínculos que sostienen los episodios depresivos.</p>
+        <div class="more">Ver más <span>→</span></div>
+      </article>
+      <article class="esp-card">
+        <div class="num">03</div>
+        <h3>Terapia de <em>pareja</em></h3>
+        <p>Un espacio neutral para nombrar lo que cuesta nombrar. Conflicto, comunicación, intimidad, decisiones de continuidad.</p>
+        <div class="more">Ver más <span>→</span></div>
+      </article>
+      <article class="esp-card">
+        <div class="num">04</div>
+        <h3>Duelo y <em>pérdidas</em></h3>
+        <p>Pérdidas humanas, rupturas, mudanzas, identidades que cambian. El duelo no se cierra: se integra. Vamos a tu ritmo.</p>
+        <div class="more">Ver más <span>→</span></div>
+      </article>
+      <article class="esp-card">
+        <div class="num">05</div>
+        <h3>Crecimiento <em>personal</em></h3>
+        <p>Para quien no está en crisis pero busca claridad: vocación, propósito, decisiones grandes, relación con uno mismo.</p>
+        <div class="more">Ver más <span>→</span></div>
+      </article>
+      <article class="esp-card">
+        <div class="num">06</div>
+        <h3>Trauma &amp; <em>memoria</em></h3>
+        <p>Abordaje sensible para experiencias adversas. Trabajo con EMDR y técnicas somáticas cuando es clínicamente pertinente.</p>
+        <div class="more">Ver más <span>→</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ───── ENFOQUE ───── -->
+<section class="enfoque" id="enfoque">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="title">
+        <div class="eyebrow" style="margin-bottom:18px">— Enfoque</div>
+        <h2>Cómo es <em>trabajar</em> juntas.</h2>
+      </div>
+      <p class="lede">Una práctica integrativa con raíces en la TCC, sensibilidad humanista y herramientas somáticas. Estructurada, pero no rígida.</p>
+    </div>
+
+    <div class="enfoque-grid">
+      <div class="enfoque-image">
+        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=900&q=80" alt="Sesión de terapia: persona escribiendo en cuaderno durante consulta psicológica" />
+      </div>
+      <div class="enfoque-steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div>
+            <h4>Primera conversación</h4>
+            <p>Una sesión sin compromiso de 50 minutos para conocernos, entender qué te trae y explorar si somos buen fit. No hay diagnóstico apresurado.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div>
+            <h4>Mapa terapéutico</h4>
+            <p>Construimos juntas una formulación clínica: qué queremos atender, qué objetivos son realistas, qué herramientas vamos a usar. Lo dejamos escrito.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div>
+            <h4>Proceso sostenido</h4>
+            <p>Sesiones semanales o quincenales según necesidad. Combino conversación, ejercicios prácticos entre sesiones y, cuando aplica, técnicas somáticas o EMDR.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div>
+            <h4>Cierre o continuidad</h4>
+            <p>Cada cierto tiempo revisamos juntas. El final no es ruptura: es integración. Algunas personas vienen por una temporada, otras vuelven en ciclos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── SOBRE MÍ ───── -->
+<section class="sobre" id="sobre-mi">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="title">
+        <div class="eyebrow" style="margin-bottom:18px">— Sobre mí</div>
+        <h2>Quince años escuchando, <em>aprendiendo</em>, sosteniendo.</h2>
+      </div>
+    </div>
+
+    <div class="sobre-grid">
+      <div class="sobre-text">
+        <p>Mi formación comenzó en la Facultad de Psicología de la UNAM. Después vinieron años de práctica clínica en instituciones públicas y privadas en la Ciudad de México, una maestría en psicología clínica y formaciones internacionales en terapia cognitivo-conductual, EMDR y terapia centrada en emociones.</p>
+        <p>Hoy mantengo un consultorio privado en Colonia del Valle donde acompaño a adultos y parejas. Mi forma de trabajar combina rigor clínico con una calidez que no se negocia: creo que la evidencia y la humanidad no se contradicen, se sostienen.</p>
+        <p>Fuera del consultorio doy supervisión clínica, escribo para revistas de bienestar mental, y participo como ponente en congresos nacionales.</p>
+
+        <div class="sobre-stats">
+          <div class="stat"><div class="n">+1,200</div><div class="l">Procesos acompañados</div></div>
+          <div class="stat"><div class="n">15</div><div class="l">Años de práctica</div></div>
+          <div class="stat"><div class="n">98%</div><div class="l">Recomendación de pacientes</div></div>
+        </div>
+      </div>
+
+      <div class="credentials">
+        <h4>Formación &amp; credenciales</h4>
+        <div class="cred-list">
+          <div class="cred-item">
+            <span class="yr">2011</span>
+            <span class="ti">Licenciatura en Psicología</span>
+            <span class="org">Universidad Nacional Autónoma de México</span>
+          </div>
+          <div class="cred-item">
+            <span class="yr">2014</span>
+            <span class="ti">Maestría en Psicología Clínica</span>
+            <span class="org">UNAM · Mención honorífica</span>
+          </div>
+          <div class="cred-item">
+            <span class="yr">2017</span>
+            <span class="ti">Certificación EMDR Nivel II</span>
+            <span class="org">EMDR Iberoamérica</span>
+          </div>
+          <div class="cred-item">
+            <span class="yr">2019</span>
+            <span class="ti">Diplomado en Terapia de Pareja</span>
+            <span class="org">Instituto de Terapia Familiar Sistémica</span>
+          </div>
+          <div class="cred-item">
+            <span class="yr">2022</span>
+            <span class="ti">Formación en Trauma Complejo</span>
+            <span class="org">The Trauma Research Foundation (Boston)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── TESTIMONIOS ───── -->
+<section class="test" id="testimonios">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="title">
+        <div class="eyebrow" style="margin-bottom:18px">— Voces</div>
+        <h2>Lo que dicen quienes han <em>trabajado</em> conmigo.</h2>
+      </div>
+      <p class="lede">Testimonios compartidos con consentimiento explícito. Los nombres han sido modificados cuando se solicitó.</p>
+    </div>
+
+    <div class="test-grid">
+      <article class="test-card">
+        <div class="stars">★ ★ ★ ★ ★</div>
+        <blockquote>“Llegué con ansiedad que me paralizaba. María Elena me enseñó a observarla sin combatirla. Un año después, soy otra persona y al mismo tiempo más yo que nunca.”</blockquote>
+        <div class="attr">
+          <div class="avatar">A</div>
+          <div class="who"><span class="name">Andrea M.</span><span class="meta">Paciente desde 2024</span></div>
+        </div>
+      </article>
+      <article class="test-card">
+        <div class="stars">★ ★ ★ ★ ★</div>
+        <blockquote>“Fuimos como pareja después de seis años sin saber comunicarnos. Su forma de mediar fue la primera vez que sentimos que ambos éramos escuchados.”</blockquote>
+        <div class="attr">
+          <div class="avatar">L</div>
+          <div class="who"><span class="name">Laura &amp; Diego</span><span class="meta">Terapia de pareja</span></div>
+        </div>
+      </article>
+      <article class="test-card">
+        <div class="stars">★ ★ ★ ★ ★</div>
+        <blockquote>“Después de perder a mi madre busqué a varias terapeutas. Con María Elena por primera vez pude llorar sin sentir que debía recuperarme rápido.”</blockquote>
+        <div class="attr">
+          <div class="avatar">R</div>
+          <div class="who"><span class="name">Regina S.</span><span class="meta">Proceso de duelo</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ───── FAQ ───── -->
+<section class="faq" id="preguntas">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div>
+        <div class="eyebrow" style="margin-bottom:18px">— Preguntas</div>
+        <h2>Antes de <em>empezar</em>.</h2>
+        <p style="margin-top:20px;color:var(--ink-2);font-size:15px;max-width:340px">Si tienes una duda que no encuentras aquí, escríbeme directamente. Respondo personalmente cada mensaje.</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Cuánto cuesta una sesión?</span><span class="ico">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner"><p>La consulta individual tiene un costo de $1,400 MXN por sesión de 50 minutos. La terapia de pareja $1,800 MXN por 75 minutos. Acepto transferencia y facturo si lo requieres.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Cuánto dura un proceso?</span><span class="ico">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner"><p>Depende del motivo y de tu propio ritmo. Procesos enfocados pueden cerrarse en 12–16 sesiones; otros se sostienen durante un año o más. En la primera consulta hacemos una estimación realista juntas.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Atiendes en línea?</span><span class="ico">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner"><p>Sí. Mantengo sesiones presenciales en Colonia del Valle y atiendo en línea por videollamada cifrada. La eficacia clínica es equivalente cuando hay buena adherencia.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Recetas medicamento?</span><span class="ico">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner"><p>No. Como psicóloga clínica no prescribo medicación. Trabajo en colaboración con psiquiatras de confianza cuando el caso lo amerita y puedo referirte.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Qué pasa si necesito cancelar?</span><span class="ico">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner"><p>Puedes reagendar sin costo hasta 24 horas antes. Las cancelaciones tardías se cobran al 50%. Mantener el encuadre es parte del proceso terapéutico.</p></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Cómo sé si somos buen fit?</span><span class="ico">+</span></button>
+          <div class="faq-a"><div class="faq-a-inner"><p>La primera sesión es exploratoria. Si al terminar no sientes resonancia, te ayudo a encontrar otra terapeuta. La relación terapéutica es el predictor más importante del cambio: importa muchísimo.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── CTA / CONTACTO ───── -->
+<section class="cta" id="contacto">
+  <div class="wrap">
+    <div class="cta-inner">
+      <div class="eyebrow" style="margin-bottom:24px;justify-content:center;display:flex">— Da el primer paso</div>
+      <h2>Estoy <em>aquí</em><br/>cuando estés <em>lista</em>.</h2>
+      <p>Agenda una primera conversación sin compromiso. Responderé en menos de 24 horas para confirmar fecha y hora.</p>
+      <div class="cta-actions">
+        <a href="#" class="btn btn-primary" data-open-booking>Agendar consulta <span class="arrow">→</span></a>
+        <a href="https://wa.me/525512345678?text=Hola%20María%20Elena%2C%20me%20gustaría%20agendar%20una%20consulta." target="_blank" rel="noopener" class="btn btn-ghost">
+          <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.2-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.8-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5 4.5.7.3 1.2.5 1.7.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.2-.3-.2-.6-.4z"/><path d="M20.5 3.5C18.3 1.2 15.3 0 12.1 0 5.5 0 .1 5.4.1 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.7 1.4 5.7 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.4zM12.1 21.7c-1.8 0-3.6-.5-5.2-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.5-1.5-5.4 0-5.5 4.5-10 10-10 2.7 0 5.2 1 7.1 2.9 1.9 1.9 2.9 4.4 2.9 7.1-.1 5.5-4.5 10-10 10z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+      <div class="cta-social" aria-label="Síguenos en redes">
+        <a href="https://wa.me/525512345678" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5C18.3 1.2 15.3 0 12.1 0 5.5 0 .1 5.4.1 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.7 1.4 5.7 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.4zM12.1 21.7c-1.8 0-3.6-.5-5.2-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.5-1.5-5.4 0-5.5 4.5-10 10-10 2.7 0 5.2 1 7.1 2.9 1.9 1.9 2.9 4.4 2.9 7.1-.1 5.5-4.5 10-10 10zm5.4-7.3c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.2-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.8-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5 4.5.7.3 1.2.5 1.7.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.2-.3-.2-.6-.4z"/></svg>
+        </a>
+        <a href="https://instagram.com/mariaelena.psicologa" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        </a>
+        <a href="https://linkedin.com/in/mariaelena-espejel" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.11 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.78v2.2h.07c.66-1.25 2.28-2.57 4.7-2.57 5.03 0 5.95 3.31 5.95 7.6V24h-5v-7.78c0-1.85-.03-4.24-2.58-4.24-2.58 0-2.98 2.02-2.98 4.1V24h-5V8z"/></svg>
+        </a>
+        <a href="mailto:hola@mariaelenaespejel.mx" aria-label="Correo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── FOOTER ───── -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-logo">
+        <div class="name">María Elena Espejel</div>
+        <div class="role">Psicología Clínica</div>
+        <p>Acompañamiento psicológico para adultos y parejas en Ciudad de México. Práctica clínica basada en evidencia, profundamente humana.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Consultorio</h5>
+        <p>Av. Insurgentes Sur 1234<br/>Piso 4, Despacho 402<br/>Col. del Valle, 03100<br/>Benito Juárez, CDMX</p>
+      </div>
+      <div class="footer-col">
+        <h5>Contacto</h5>
+        <a href="tel:+525512345678">+52 55 1234 5678</a>
+        <a href="mailto:hola@mariaelenaespejel.mx">hola@mariaelenaespejel.mx</a>
+        <div class="footer-social">
+          <a href="https://wa.me/525512345678" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5C18.3 1.2 15.3 0 12.1 0 5.5 0 .1 5.4.1 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.7 1.4 5.7 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.4zM12.1 21.7c-1.8 0-3.6-.5-5.2-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.5-1.5-5.4 0-5.5 4.5-10 10-10 2.7 0 5.2 1 7.1 2.9 1.9 1.9 2.9 4.4 2.9 7.1-.1 5.5-4.5 10-10 10zm5.4-7.3c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.2-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.8-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5 4.5.7.3 1.2.5 1.7.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.2-.3-.2-.6-.4z"/></svg>
+          </a>
+          <a href="https://instagram.com/mariaelena.psicologa" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a href="https://linkedin.com/in/mariaelena-espejel" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.11 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.78v2.2h.07c.66-1.25 2.28-2.57 4.7-2.57 5.03 0 5.95 3.31 5.95 7.6V24h-5v-7.78c0-1.85-.03-4.24-2.58-4.24-2.58 0-2.98 2.02-2.98 4.1V24h-5V8z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Horarios</h5>
+        <p>Lun – Vie · 9:00 – 19:00<br/>Sáb · 9:00 – 14:00<br/>Dom · cerrado</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 María Elena Espejel · Cédula Profesional 8472639 UNAM</div>
+      <div class="legal">
+        <a href="#">Aviso de privacidad</a>
+        <a href="#">Código ético</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ───── BOOKING MODAL ───── -->
+<div class="modal-backdrop" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
+  <div class="modal" role="document">
+    <div class="modal-head">
+      <div>
+        <h3 id="bookingTitle">Agenda tu primera consulta</h3>
+        <div class="sub">Te respondo personalmente en menos de 24 horas.</div>
+      </div>
+      <button class="modal-close" aria-label="Cerrar" data-close-booking>×</button>
+    </div>
+    <div class="modal-body" id="bookingBody">
+      <form id="bookingForm" novalidate>
+        <div class="form-grid">
+          <div class="field">
+            <label for="bk-name">Nombre</label>
+            <input id="bk-name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="bk-phone">Teléfono</label>
+            <input id="bk-phone" name="phone" type="tel" required autocomplete="tel" />
+          </div>
+          <div class="field full">
+            <label for="bk-email">Correo</label>
+            <input id="bk-email" name="email" type="email" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="bk-mod">Modalidad</label>
+            <select id="bk-mod" name="mod">
+              <option>Presencial · Col. del Valle</option>
+              <option>En línea</option>
+              <option>Cualquiera</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="bk-area">Motivo principal</label>
+            <select id="bk-area" name="area">
+              <option>Ansiedad o estrés</option>
+              <option>Estado de ánimo</option>
+              <option>Pareja</option>
+              <option>Duelo / pérdida</option>
+              <option>Crecimiento personal</option>
+              <option>Otro / prefiero comentarlo</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="bk-notes">¿Algo que quieras compartir antes? (opcional)</label>
+            <textarea id="bk-notes" name="notes" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <div class="note">Toda la información compartida es estrictamente confidencial.</div>
+          <button type="submit" class="btn btn-primary">Enviar solicitud <span class="arrow">→</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ───── WHATSAPP FAB ───── -->
+<a href="https://wa.me/525512345678?text=Hola%20Mar%C3%ADa%20Elena%2C%20me%20gustar%C3%ADa%20agendar%20una%20consulta." target="_blank" rel="noopener" class="wa-fab" aria-label="Contactar por WhatsApp">
+  <span class="pulse" aria-hidden="true"></span>
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3.5C18.3 1.2 15.3 0 12.1 0 5.5 0 .1 5.4.1 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.7 1.4 5.7 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.4zM12.1 21.7c-1.8 0-3.6-.5-5.2-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.5-1.5-5.4 0-5.5 4.5-10 10-10 2.7 0 5.2 1 7.1 2.9 1.9 1.9 2.9 4.4 2.9 7.1-.1 5.5-4.5 10-10 10zm5.4-7.3c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.2-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.8-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5 4.5.7.3 1.2.5 1.7.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.2-.3-.2-.6-.4z"/></svg>
+</a>
+
+<div id="tweaks-root"></div>
+
+<script>
+  // Sticky nav border
+  const nav = document.getElementById('nav');
+  const heroTitle = document.querySelector('.hero-title');
+  const heroEm = document.querySelector('.hero-em');
+  const heroSub = document.querySelector('.hero-sub');
+  const heroMeta = document.querySelector('.hero-meta');
+  const heroPortrait = document.querySelector('.hero-portrait');
+
+  let ticking = false;
+  function updateScroll(){
+    const y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 8);
+    // Hero parallax — title drifts up, italic word drifts at different rate (layered depth)
+    const yc = Math.min(y, 900);
+    if (heroTitle) heroTitle.style.transform = `translate3d(0, ${yc * -0.12}px, 0)`;
+    if (heroEm)    heroEm.style.transform    = `translate3d(${yc * 0.35}px, ${yc * 0.18}px, 0) rotate(${yc * 0.008}deg)`;
+    if (heroSub)   heroSub.style.transform   = `translate3d(0, ${yc * -0.06}px, 0)`;
+    if (heroMeta)  heroMeta.style.transform  = `translate3d(0, ${yc * -0.03}px, 0)`;
+    if (heroPortrait) heroPortrait.style.transform = `translate3d(0, ${yc * 0.08}px, 0) scale(${1 - yc * 0.00012})`;
+    // Fade hero text as we leave
+    const fade = Math.max(0, 1 - y / 700);
+    if (heroTitle) heroTitle.style.opacity = fade;
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) { window.requestAnimationFrame(updateScroll); ticking = true; }
+  }, { passive: true });
+  updateScroll();
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach((item) => {
+    const btn = item.querySelector('.faq-q');
+    btn.addEventListener('click', () => {
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // Booking modal
+  const modal = document.getElementById('bookingModal');
+  const openBooking = () => { modal.classList.add('open'); document.body.style.overflow = 'hidden'; };
+  const closeBooking = () => { modal.classList.remove('open'); document.body.style.overflow = ''; };
+  document.querySelectorAll('[data-open-booking]').forEach(el => {
+    el.addEventListener('click', (e) => { e.preventDefault(); openBooking(); });
+  });
+  document.querySelectorAll('[data-close-booking]').forEach(el => el.addEventListener('click', closeBooking));
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeBooking(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeBooking(); });
+
+  // Booking form submit
+  const form = document.getElementById('bookingForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    if (!data.get('name') || !data.get('email')) {
+      alert('Por favor completa nombre y correo.');
+      return;
+    }
+    document.getElementById('bookingBody').innerHTML = `
+      <div class="form-success">
+        <div class="check">✓</div>
+        <h4>Gracias, ${data.get('name')}.</h4>
+        <p>He recibido tu solicitud. Te contactaré en menos de 24 horas al correo <strong>${data.get('email')}</strong> para coordinar nuestra primera conversación.</p>
+      </div>
+    `;
+  });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('section, .hero-grid > *, .step, .test-card, .esp-card').forEach(el => {
+    el.classList.add('reveal'); io.observe(el);
+  });
+</script>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" data-presets="env,react">
+  const { useState, useEffect } = React;
+
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "palette": [
+      "#EDE7DC",
+      "#1F1D1A",
+      "#6B7D6A",
+      "#C9B8A0"
+    ],
+    "displayFont": "Cormorant Garamond",
+    "bodyFont": "Work Sans",
+    "showBadge": true,
+    "darkHero": false
+  }/*EDITMODE-END*/;
+
+  const PALETTES = [
+    ["#EDE7DC", "#1F1D1A", "#6B7D6A", "#C9B8A0"], // Salvia cálido (default)
+    ["#F3E9DF", "#241C16", "#B5654A", "#D9C2A6"], // Terracota
+    ["#E8EBED", "#101822", "#3E5A7B", "#A8B6C3"], // Azul profundo
+    ["#F2E6E2", "#231A1A", "#8A4F5B", "#D7B8B0"], // Rosa polvo
+    ["#EAE7E0", "#1B1B1B", "#3D3D3D", "#C0B59C"]  // Monocromo cálido
+  ];
+
+  const DISPLAY_FONTS = ["Instrument Serif", "Cormorant Garamond", "EB Garamond", "Newsreader", "DM Serif Display"];
+  const BODY_FONTS = ["Manrope", "Inter", "DM Sans", "Work Sans", "IBM Plex Sans"];
+
+  function App() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+    // Apply CSS vars
+    useEffect(() => {
+      const [bg, ink, accent, tan] = t.palette;
+      const r = document.documentElement.style;
+      r.setProperty('--bg', bg);
+      r.setProperty('--ink', ink);
+      r.setProperty('--accent-deep', accent);
+      r.setProperty('--accent', accent);
+      r.setProperty('--tan', tan);
+      // mix derivatives
+      r.setProperty('--bg-2', mix(bg, ink, 0.07));
+      r.setProperty('--paper', mix(bg, '#ffffff', 0.35));
+      r.setProperty('--ink-2', mix(ink, bg, 0.28));
+      r.setProperty('--ink-3', mix(ink, bg, 0.55));
+      r.setProperty('--line', mix(ink, bg, 0.85) + 'cc');
+      r.setProperty('--serif', `"${t.displayFont}", Georgia, serif`);
+      r.setProperty('--sans', `"${t.bodyFont}", ui-sans-serif, system-ui, sans-serif`);
+    }, [t]);
+
+    // Load fonts dynamically
+    useEffect(() => {
+      const id = 'dynamic-fonts';
+      const existing = document.getElementById(id);
+      if (existing) existing.remove();
+      const link = document.createElement('link');
+      link.id = id;
+      link.rel = 'stylesheet';
+      const fam = (f) => f.replaceAll(' ', '+');
+      link.href = `https://fonts.googleapis.com/css2?family=${fam(t.displayFont)}:ital@0;1&family=${fam(t.bodyFont)}:wght@300;400;500;600;700&display=swap`;
+      document.head.appendChild(link);
+    }, [t.displayFont, t.bodyFont]);
+
+    // Toggle hero badge
+    useEffect(() => {
+      const badge = document.querySelector('.hero-badge');
+      if (badge) badge.style.display = t.showBadge ? '' : 'none';
+    }, [t.showBadge]);
+
+    return (
+      <TweaksPanel>
+        <TweakSection label="Paleta" />
+        <TweakColor
+          label="Combinación"
+          value={t.palette}
+          options={PALETTES}
+          onChange={(v) => setTweak('palette', v)}
+        />
+        <TweakSection label="Tipografía" />
+        <TweakSelect
+          label="Display"
+          value={t.displayFont}
+          options={DISPLAY_FONTS}
+          onChange={(v) => setTweak('displayFont', v)}
+        />
+        <TweakSelect
+          label="Body"
+          value={t.bodyFont}
+          options={BODY_FONTS}
+          onChange={(v) => setTweak('bodyFont', v)}
+        />
+        <TweakSection label="Hero" />
+        <TweakToggle
+          label="Mostrar badge"
+          value={t.showBadge}
+          onChange={(v) => setTweak('showBadge', v)}
+        />
+      </TweaksPanel>
+    );
+  }
+
+  // Hex blender util
+  function mix(a, b, w) {
+    const pa = parseHex(a), pb = parseHex(b);
+    const r = Math.round(pa[0] * (1 - w) + pb[0] * w);
+    const g = Math.round(pa[1] * (1 - w) + pb[1] * w);
+    const bl = Math.round(pa[2] * (1 - w) + pb[2] * w);
+    return '#' + [r, g, bl].map(n => n.toString(16).padStart(2, '0')).join('');
+  }
+  function parseHex(h){
+    h = h.replace('#','');
+    if (h.length === 3) h = h.split('').map(c=>c+c).join('');
+    return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+  }
+
+  // Wait for the tweaks panel script to register globals
+  function mount() {
+    if (typeof useTweaks === 'undefined' || typeof TweaksPanel === 'undefined') {
+      setTimeout(mount, 30);
+      return;
+    }
+    ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<App />);
+  }
+  mount();
+</script>
+
+</body>
+</html>
